@@ -4,6 +4,7 @@ import './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
+  showPerson = false;
    state = { person: [
       { name : 'Max', age : 28},
       { name : 'Cros', age : 38},
@@ -20,7 +21,6 @@ class App extends Component {
       })
    }
 
-
    nameChangeHandler = (event) => {
     this.setState({
       person: [
@@ -30,7 +30,10 @@ class App extends Component {
      ]
     })
  }
-
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPerson;
+    this.setState( { showPerson: !doesShow } );
+  }
   render() {
 
     const style = {
@@ -40,11 +43,12 @@ class App extends Component {
       padding: '6px',
       cursor: 'pointer'
     };
-    return (
-      <div className="App">
-        <h3>Hello thisa is my first react project</h3>
-        <h4>Cristian</h4>
-        <button style={style} onClick={this.switchNameHandler.bind(this, 'Maximmilian')}>Switch Name</button>
+
+    let person = null;
+
+    if (this.state.showPerson) {
+      person = (
+        <div>
         <Person 
           name={this.state.person[0].name}  
           age={this.state.person[0].age} />
@@ -55,6 +59,17 @@ class App extends Component {
         <Person 
           name={this.state.person[2].name}  
           age={this.state.person[2].age}> I'm playing heros of the storm </Person>
+      </div>
+      );
+    }
+  
+    return (
+      <div className="App">
+        <h3>Hello thisa is my first react project</h3>
+        <h4>Cristian</h4>
+        <button style={style} onClick={this.togglePersonsHandler}> Toggle </button> | 
+        | <button style={style} onClick={this.switchNameHandler.bind(this, 'Maximmilian')}>Switch Name</button>
+        {person}
       </div>
     );
   }
